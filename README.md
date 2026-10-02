@@ -1,8 +1,8 @@
 # Font List
 
-A live showcase of 24 curated Google Fonts pairings, each rendered with real
-headline and body copy so you can compare them before committing to one.
-Built with [Astro](https://astro.build).
+A live showcase of 54 curated Google Fonts pairings, each rendered with a
+compact specimen (font name, a glyph swatch, and a pangram) so you can
+compare them before committing to one. Built with [Astro](https://astro.build).
 
 ## Getting started
 
@@ -13,9 +13,10 @@ npm run build     # build static site to ./dist
 npm run preview   # preview the production build
 ```
 
-Use the category filters (Editorial, Technical, Product, Humanist, Bold,
-Single) to narrow down the list, and read the "why" note under each card to
-understand the rationale behind the pairing.
+Use the category filters — Editorial, Technical, Product, Humanist, Bold,
+Single, Neo-Grotesk, Maximalist Serif, Retro / Pixel, Tech-Mono, Accessible,
+Kinetic, Classic — to narrow down the list, and read the "why" note under
+each card to understand the rationale behind the pairing.
 
 ## Project structure
 
@@ -36,8 +37,9 @@ renders — no client-side font loading.
 
 ## Catalog
 
-The full written catalog — with CSS variables ready to paste into a project —
-lives in [`pairings.md`](./pairings.md).
+The live catalog (all 54 pairings) is `src/data/pairings.js`. [`pairings.md`](./pairings.md)
+has a written write-up with ready-to-paste CSS variables for the original 24 —
+useful as a reference format, not the full current list.
 
 ## Fonts
 
