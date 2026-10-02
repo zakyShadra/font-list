@@ -4,10 +4,13 @@ import { FALLBACKS } from "../data/pairings";
 const { pairing: p } = Astro.props;
 
 const style = `--d:'${p.d}', ${FALLBACKS.serif}; --b:'${p.b}', ${FALLBACKS.sans}; --m:'${p.m || p.b}', ${FALLBACKS.mono};`;
+const search = `${p.name} ${p.d} ${p.b} ${p.m || ""} ${p.mood} ${p.cat}`.toLowerCase();
 ---
-<article class="card" data-cat={p.cat} style={style}>
+<article class="card" data-cat={p.cat} data-search={search} style={style}>
   <div class="card-head">
-    <span class="card-name"><b>{String(p.n).padStart(2, "0")}</b> &nbsp;{p.name}</span>
+    <span class="card-name">
+      <b>{String(p.n).padStart(2, "0")}</b> &nbsp;{p.d} for headline · {p.b} for body{p.m && <> · {p.m} for mono</>}
+    </span>
     <span class="card-num">{p.cat}</span>
   </div>
   <div class="specimen">

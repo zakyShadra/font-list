@@ -67,6 +67,33 @@ h1.intro {
 .toolbar button:hover, .toolbar button.active {
   color: var(--ink); background: var(--accent); border-color: var(--accent);
 }
+.toolbar input[type="search"],
+.toolbar select {
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--paper);
+  background: var(--ink-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  outline: none;
+}
+.toolbar input[type="search"] {
+  flex: 1 1 240px;
+  min-width: 160px;
+}
+.toolbar input[type="search"]::placeholder { color: var(--paper-muted); }
+.toolbar select {
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+.toolbar input[type="search"]:focus,
+.toolbar select:focus {
+  border-color: var(--accent);
+}
 
 .grid { display: grid; gap: 1.25rem; padding-bottom: 5rem; }
 

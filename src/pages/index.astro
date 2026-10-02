@@ -29,10 +29,11 @@ const fontHrefs = FONT_FAMILIES.map(
       </p>
     </header>
 
-    <div class="toolbar" id="filters">
-      {CATEGORIES.map((c, i) => (
-        <button data-cat={c} class={i === 0 ? "active" : ""}>{c}</button>
-      ))}
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search a font, mood, or style…" autocomplete="off" />
+      <select id="category-select">
+        {CATEGORIES.map((c) => <option value={c}>{c}</option>)}
+      </select>
     </div>
     <div class="grid" id="grid">
       {PAIRINGS.map((p) => <Card pairing={p} />)}
@@ -44,18 +45,22 @@ const fontHrefs = FONT_FAMILIES.map(
   </footer>
 
   <script>
-    const filters = document.getElementById("filters")!;
+    const search = document.getElementById("search") as HTMLInputElement;
+    const categorySelect = document.getElementById("category-select") as HTMLSelectElement;
     const cards = document.querySelectorAll<HTMLElement>("#grid .card");
 
-    filters.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest("button");
-      if (!btn) return;
-      filters.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
-      const cat = btn.dataset.cat;
+    function applyFilters() {
+      const query = search.value.trim().toLowerCase();
+      const cat = categorySelect.value;
       cards.forEach((card) => {
-        card.hidden = !(cat === "All" || card.dataset.cat === cat);
+        const matchesCat = cat === "All" || card.dataset.cat === cat;
+        const matchesSearch = !query || (card.dataset.search ?? "").includes(query);
+        card.hidden = !(matchesCat && matchesSearch);
       });
-    });
+    }
+
+    search.addEventListener("input", applyFilters);
+    categorySelect.addEventListener("change", applyFilters);
   </script>
 </body>
 </html>
