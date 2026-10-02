@@ -1,6 +1,5 @@
-// --- Pairings -------------------------------------------------------------
 // d = display family, b = body family, m = mono family (optional)
-const PAIRINGS = [
+export const PAIRINGS = [
   { n:1,  cat:"Editorial", name:"Instrument Serif + Archivo", d:"Instrument Serif", b:"Archivo", m:"JetBrains Mono",
     why:"A fine, slightly condensed serif for big headlines; a plain grotesk keeps body copy quiet. Mono handles specs without shouting.",
     mood:"Portfolio · studio · documentation" },
@@ -80,72 +79,8 @@ const PAIRINGS = [
     mood:"Product · dev tool · minimal portfolio" },
 ];
 
-// --- Load Google Fonts (one link per family avoids URL-length limits) ------
-const FALLBACKS = { serif:"Georgia, serif", sans:"system-ui, sans-serif", mono:"ui-monospace, monospace" };
-const loaded = new Set();
-function loadFamily(family) {
-  if (loaded.has(family)) return;
-  loaded.add(family);
-  const f = family.replace(/ /g, "+");
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = `https://fonts.googleapis.com/css2?family=${f}:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap`;
-  document.head.appendChild(link);
-}
+export const FALLBACKS = { serif: "Georgia, serif", sans: "system-ui, sans-serif", mono: "ui-monospace, monospace" };
 
-// --- Render ---------------------------------------------------------------
-const grid = document.getElementById("grid");
-const filters = document.getElementById("filters");
+export const FONT_FAMILIES = [...new Set(PAIRINGS.flatMap((p) => [p.d, p.b, p.m].filter(Boolean)))];
 
-function specimenStyle(p) {
-  return `--d:'${p.d}', ${FALLBACKS.serif}; --b:'${p.b}', ${FALLBACKS.sans}; --m:'${p.m || p.b}', ${FALLBACKS.mono};`;
-}
-
-function card(p) {
-  return `
-  <article class="card" data-cat="${p.cat}" style="${specimenStyle(p)}">
-    <div class="card-head">
-      <span class="card-name"><b>${String(p.n).padStart(2,"0")}</b> &nbsp;${p.name}</span>
-      <span class="card-num">${p.cat}</span>
-    </div>
-    <div class="specimen">
-      <div class="d" style="font-family:var(--d)">Build things that last.</div>
-      <div class="d2" style="font-family:var(--d)"><i>The quick brown fox</i> jumps over the lazy dog.</div>
-      <p class="b" style="font-family:var(--b)">
-        Software engineer building local-first AI agents, automation bots and small
-        tools that run close to the metal. The body face does the heavy lifting —
-        read a full paragraph before deciding. 0123456789 &amp; @#$%
-      </p>
-      <div class="m" style="font-family:var(--m)">JETBRAINS · 2026 · SPEC 1400×788 · v0.1.0</div>
-    </div>
-    <div class="why">${p.why}</div>
-    <div class="card-foot">
-      <span class="mood">${p.mood}</span>
-      <span class="roles">
-        <span>D ${p.d}</span><span>B ${p.b}</span>${p.m ? `<span>M ${p.m}</span>` : ""}
-      </span>
-    </div>
-  </article>`;
-}
-
-function render(filter) {
-  const list = filter && filter !== "All"
-    ? PAIRINGS.filter(p => p.cat === filter)
-    : PAIRINGS;
-  grid.innerHTML = list.map(card).join("");
-  list.forEach(p => { loadFamily(p.d); loadFamily(p.b); if (p.m) loadFamily(p.m); });
-}
-
-// --- Filters --------------------------------------------------------------
-const cats = ["All", ...new Set(PAIRINGS.map(p => p.cat))];
-filters.innerHTML = cats.map((c, i) =>
-  `<button data-cat="${c}" class="${i === 0 ? "active" : ""}">${c}</button>`
-).join("");
-filters.addEventListener("click", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-  filters.querySelectorAll("button").forEach(b => b.classList.toggle("active", b === btn));
-  render(btn.dataset.cat);
-});
-
-render("All");
+export const CATEGORIES = ["All", ...new Set(PAIRINGS.map((p) => p.cat))];

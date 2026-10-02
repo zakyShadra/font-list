@@ -1,0 +1,61 @@
+---
+import "../styles/global.css";
+import Card from "../components/Card.astro";
+import { PAIRINGS, FONT_FAMILIES, CATEGORIES } from "../data/pairings";
+
+const fontHrefs = FONT_FAMILIES.map(
+  (family) =>
+    `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap`
+);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Font Pairing — Showcase</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {fontHrefs.map((href) => <link rel="stylesheet" href={href} />)}
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <p class="kicker">Font pairing · live preview</p>
+      <h1 class="intro">See the type before you commit to it.</h1>
+      <p class="intro-note">
+        Every card is rendered in the portfolio's own palette (near-black, paper,
+        vermillion). Read the headline, then the paragraph — that's the test that
+        matters. Pick a number, then tell the agent which one to apply.
+      </p>
+    </header>
+
+    <div class="toolbar" id="filters">
+      {CATEGORIES.map((c, i) => (
+        <button data-cat={c} class={i === 0 ? "active" : ""}>{c}</button>
+      ))}
+    </div>
+    <div class="grid" id="grid">
+      {PAIRINGS.map((p) => <Card pairing={p} />)}
+    </div>
+  </div>
+
+  <footer class="wrap">
+    Fonts via Google Fonts (open-source). Catalog: <code>pairings.md</code>.
+  </footer>
+
+  <script>
+    const filters = document.getElementById("filters")!;
+    const cards = document.querySelectorAll<HTMLElement>("#grid .card");
+
+    filters.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest("button");
+      if (!btn) return;
+      filters.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
+      const cat = btn.dataset.cat;
+      cards.forEach((card) => {
+        card.hidden = !(cat === "All" || card.dataset.cat === cat);
+      });
+    });
+  </script>
+</body>
+</html>
