@@ -5,6 +5,7 @@ const { pairing: p } = Astro.props;
 
 const style = `--d:'${p.d}', ${FALLBACKS.serif}; --b:'${p.b}', ${FALLBACKS.sans}; --m:'${p.m || p.b}', ${FALLBACKS.mono};`;
 const search = `${p.name} ${p.d} ${p.b} ${p.m || ""} ${p.mood} ${p.cat}`.toLowerCase();
+const gfUrl = (family) => `https://fonts.google.com/specimen/${family.replace(/ /g, "+")}`;
 ---
 <article class="card" data-cat={p.cat} data-search={search} style={style}>
   <div class="card-head">
@@ -23,7 +24,10 @@ const search = `${p.name} ${p.d} ${p.b} ${p.m || ""} ${p.mood} ${p.cat}`.toLower
   <div class="card-foot">
     <span class="mood">{p.mood}</span>
     <span class="roles">
-      <span>D {p.d}</span><span>B {p.b}</span>{p.m && <span>M {p.m}</span>}
+      <span class="roles-label">Download ↓</span>
+      <a href={gfUrl(p.d)} target="_blank" rel="noopener noreferrer">D {p.d}</a>
+      <a href={gfUrl(p.b)} target="_blank" rel="noopener noreferrer">B {p.b}</a>
+      {p.m && <a href={gfUrl(p.m)} target="_blank" rel="noopener noreferrer">M {p.m}</a>}
     </span>
   </div>
 </article>

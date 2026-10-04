@@ -171,6 +171,17 @@ export const PAIRINGS = [
   { n:54, cat:"Classic", name:"Domine + Nunito Sans", d:"Domine", b:"Nunito Sans",
     why:"Domine was designed explicitly to look good in long paragraphs on a screen; Nunito Sans is the more neutral, less-rounded sibling of Nunito, a safe, friendly body partner.",
     mood:"Content site · newsletter · friendly long-form" },
+
+  // --- Spotted in "Album Font: Nyebrang Tapi Jodoh" (the 3 pairs that are fully Google Fonts) ---
+  { n:55, cat:"Elegant", name:"Luxurious Script + Urbanist", d:"Luxurious Script", b:"Urbanist",
+    why:"A formal copperplate-style script makes one signature headline moment; Urbanist's airy geometric sans keeps everything else calm so the script doesn't get exhausting at paragraph length.",
+    mood:"Luxury branding · wedding invitation · boutique" },
+  { n:56, cat:"Bold", name:"Rubik + Monoton", d:"Monoton", b:"Rubik",
+    why:"Monoton's thin concentric lines read as neon tube signage — pure display, never for body text. Rubik's slightly rounded grotesque keeps supporting copy legible without breaking the retro mood.",
+    mood:"Retro signage · nightlife · poster" },
+  { n:57, cat:"Editorial", name:"Mohave + Baskervville", d:"Baskervville", b:"Mohave",
+    why:"Baskervville revives a classic transitional book serif with real italics; Mohave's wide, slightly futuristic sans gives the pairing an unexpected modern edge instead of reading as purely vintage.",
+    mood:"Fashion editorial · vintage-modern hybrid" },
 ];
 
 export const FALLBACKS = { serif: "Georgia, serif", sans: "system-ui, sans-serif", mono: "ui-monospace, monospace" };

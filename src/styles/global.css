@@ -158,14 +158,59 @@ h1.intro {
   color: var(--paper-muted);
 }
 .mood { color: var(--paper-dim); }
-.roles { display: flex; gap: 0.6rem; }
-.roles span { color: var(--accent-ink); }
+.roles { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.roles-label { color: var(--paper-muted); }
+.roles a {
+  color: var(--accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.roles a:hover { border-bottom-color: var(--accent-ink); }
 
 .why {
   padding: 0 1.25rem 1.1rem;
   font-size: 0.85rem;
   color: var(--paper-dim);
   max-width: 70ch;
+}
+
+/* --- Spotted-in-the-wild reference list (no preview, premium/third-party fonts) --- */
+.spotted { padding: 2.5rem 0 1rem; border-top: 1px solid var(--rule); }
+.spotted-head h2 {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  margin-bottom: 0.5rem;
+}
+.spotted-head p { color: var(--paper-dim); max-width: 62ch; margin-bottom: 0.5rem; }
+.spotted-head .note {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--paper-muted);
+  margin-bottom: 2rem;
+}
+.spotted-group { margin-bottom: 1.75rem; }
+.spotted-group h3 {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 0.75rem;
+}
+.spotted-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.4rem 1.5rem;
+  list-style: none;
+}
+.spotted-list li {
+  font-size: 0.85rem;
+  color: var(--paper-dim);
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed var(--rule);
 }
 
 footer { padding: 2rem 0 4rem; border-top: 1px solid var(--rule); color: var(--paper-muted); font-size: 0.8rem; }
