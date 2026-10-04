@@ -44,19 +44,41 @@ const fontHrefs = FONT_FAMILIES.map(
       <div class="spotted-head">
         <h2>Spotted in "Album Font: Nyebrang Tapi Jodoh"</h2>
         <p>
-          Font pairings from Kang Desain's (@fajarnyeni) ebook. Most of these use
-          premium / third-party fonts that aren't on Google Fonts — they can't be
-          rendered here and there's no download link, since several of the ebook's
-          own links point to sites redistributing paid fonts (Adobe Clean, TT Norms
-          Pro) without authorization. Names only, for reference.
+          Font pairings from Kang Desain's (@fajarnyeni) ebook. None of these are
+          live-rendered here — licenses are mixed (several are personal-use-only)
+          so we don't self-host them. Where we tracked down a real free download,
+          the name links straight to the original host. A <span class="tag-paid">premium</span>
+          tag means it turned out to be paid — some of the ebook's own "free
+          download" links actually redirect to Envato Elements or a commercial
+          foundry — so there's nothing to link to.
         </p>
-        <p class="note">NO PREVIEW · NO DOWNLOAD · LICENSE NOT VERIFIED</p>
+        <p class="note">NO LIVE PREVIEW · LINKS GO TO THE ORIGINAL SOURCE · CHECK EACH LICENSE BEFORE COMMERCIAL USE</p>
       </div>
       {SPOTTED.map((group) => (
         <div class="spotted-group">
           <h3>{group.theme}</h3>
           <ul class="spotted-list">
-            {group.pairs.map((pair) => <li>{pair}</li>)}
+            {group.pairs.map((pair) => (
+              <li>
+                {typeof pair === "string" ? (
+                  pair
+                ) : (
+                  pair.fonts.map((f, i) => (
+                    <>
+                      {i > 0 && " + "}
+                      {f.status === "free" ? (
+                        <a href={f.url} target="_blank" rel="noopener noreferrer" title={f.note}>{f.name} ↓</a>
+                      ) : (
+                        <span class="unlinked" title={f.note}>
+                          {f.name}
+                          {(f.status === "paid" || f.status === "paid-commercial") && <span class="tag-paid">premium</span>}
+                        </span>
+                      )}
+                    </>
+                  ))
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       ))}

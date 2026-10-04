@@ -212,6 +212,27 @@ h1.intro {
   padding: 0.3rem 0;
   border-bottom: 1px dashed var(--rule);
 }
+.spotted-list a {
+  color: var(--accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.spotted-list a:hover { border-bottom-color: var(--accent-ink); }
+.spotted-list .unlinked { color: var(--paper-muted); }
+.tag-paid {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--accent-ink);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+  margin-left: 0.35rem;
+  vertical-align: 1px;
+}
 
 footer { padding: 2rem 0 4rem; border-top: 1px solid var(--rule); color: var(--paper-muted); font-size: 0.8rem; }
 footer a { color: var(--accent-ink); }
