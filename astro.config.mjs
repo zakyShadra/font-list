@@ -3,6 +3,5 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://zakyshadra.github.io',
-  base: '/font-list',
+  site: 'https://font-list.ices.my.id',
 });
