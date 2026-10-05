@@ -11,6 +11,7 @@
 }
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
 body {
   background: var(--ink);
   color: var(--paper);
@@ -38,7 +39,6 @@ h1.intro {
   font-size: clamp(0.95rem, 4.8vw, 2.25rem);
   line-height: 1.1;
   letter-spacing: 0.01em;
-  white-space: nowrap;
   max-width: 100%;
 }
 .intro-note { font-family: 'Rubik', system-ui, sans-serif; color: var(--paper-dim); max-width: 100%; margin-top: 1.25rem; }
@@ -160,7 +160,8 @@ h1.intro {
 .dd-panel {
   position: absolute;
   top: calc(100% + 0.5rem);
-  left: 0;
+  right: 0;
+  left: auto;
   min-width: 100%;
   width: max-content;
   max-width: min(20rem, 90vw);
