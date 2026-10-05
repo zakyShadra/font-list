@@ -42,6 +42,8 @@ h1.intro {
   max-width: 100%;
 }
 .intro-note { font-family: 'Rubik', system-ui, sans-serif; color: var(--paper-dim); max-width: 100%; margin-top: 1.25rem; }
+.intro-extra { display: none; }
+@media (min-width: 640px) { .intro-extra { display: inline; } }
 
 /* --- Logo marquee: infinite auto-scrolling strip of design tools, like ngrok's client logos --- */
 .marquee {
