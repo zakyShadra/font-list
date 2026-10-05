@@ -15,7 +15,7 @@
 // list, besides Purelines + Audrey) — shown as plain text, same as before.
 export const SPOTTED = [
   {
-    theme: "Chapter 1 — 20 Pasangan Font",
+    theme: "Chapter 1: 20 Font Pairings",
     pairs: [
       { fonts: [
         { name: "Purelines", status: "free", url: "https://www.1001fonts.com/purelines-font.html" },
@@ -40,7 +40,7 @@ export const SPOTTED = [
     ],
   },
   {
-    theme: "Edisi Cinematic",
+    theme: "Cinematic Edition",
     pairs: [
       { fonts: [
         { name: "Moon Stone", status: "free", url: "https://www.1001fonts.com/moon-stone-font.html" },
@@ -69,7 +69,7 @@ export const SPOTTED = [
     ],
   },
   {
-    theme: "Edisi Japanese Style",
+    theme: "Japanese Style Edition",
     pairs: [
       { fonts: [
         { name: "Akashi", status: "free", url: "https://fonts2u.com/akashi.font" },
@@ -98,7 +98,7 @@ export const SPOTTED = [
     ],
   },
   {
-    theme: "Edisi Gaya Arab",
+    theme: "Arabic Style Edition",
     pairs: [
       { fonts: [
         { name: "Syawal", status: "free", url: "https://www.1001fonts.com/syawal-font.html", note: "ebook's own link is dead; this is the real source" },
@@ -122,7 +122,7 @@ export const SPOTTED = [
     ],
   },
   {
-    theme: "Edisi Piala Dunia 2026",
+    theme: "World Cup 2026 Edition",
     pairs: [
       { fonts: [
         { name: "Nos", status: "free", url: "https://www.fontshut.com/nos-font/" },

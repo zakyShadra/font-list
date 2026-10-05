@@ -3,6 +3,7 @@ import "../styles/global.css";
 import "../styles/spotted-fonts.css";
 import Card from "../components/Card.astro";
 import SpottedLiveCard from "../components/SpottedLiveCard.astro";
+import LogoMarquee from "../components/LogoMarquee.astro";
 import { PAIRINGS, FONT_FAMILIES, CATEGORIES } from "../data/pairings";
 import { LIVE_PAIRS, GOOGLE_FONTS, PREMIUM_CATEGORIES } from "../data/spottedLive";
 
@@ -19,43 +20,53 @@ const IG_URL = "https://www.instagram.com/fajarnyeni?utm_source=ig_web_button_sh
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Font Pairing — Showcase</title>
+  <title>Font Pairing Showcase</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&family=Rubik:ital,wght@0,400;0,500;1,400&display=swap" />
   {fontHrefs.map((href) => <link rel="stylesheet" href={href} />)}
 </head>
 <body>
   <div class="wrap">
     <header class="top">
-      <p class="kicker">Font pairing · live preview</p>
       <h1 class="intro">See the type before you commit to it.</h1>
       <p class="intro-note">
-        Every card is rendered in the portfolio's own palette (near-black, paper,
-        vermillion). Read the headline, then the paragraph — that's the test that
-        matters. Pick a number, then tell the agent which one to apply.
+        Every pairing below renders live, right in your browser. It's real type, not
+        a screenshot. Read the headline first, then the paragraph underneath it.
+        That's the only real test for whether two fonts belong together.
       </p>
     </header>
 
+    <LogoMarquee />
+
     <div class="toolbar">
       <input type="search" id="search" placeholder="Search a font, mood, or style…" autocomplete="off" />
-      <select id="category-select">
-        <option value="All">All</option>
-        <optgroup label="Premium">
-          {PREMIUM_CATEGORIES.map((c) => <option value={`premium:${c}`}>{c}</option>)}
-        </optgroup>
-        <optgroup label="Standar">
-          {CATEGORIES.filter((c) => c !== "All").map((c) => <option value={`standard:${c}`}>{c}</option>)}
-        </optgroup>
-      </select>
+      <div class="dd" id="category-dd">
+        <button type="button" class="dd-trigger" id="category-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="dd-label">All</span>
+          <svg class="dd-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <div class="dd-panel" id="category-panel" role="listbox" tabindex="-1">
+          <div class="dd-option active" role="option" aria-selected="true" tabindex="0" data-value="All">All</div>
+          <div class="dd-group-label">Premium</div>
+          {PREMIUM_CATEGORIES.map((c) => (
+            <div class="dd-option" role="option" aria-selected="false" tabindex="0" data-value={`premium:${c}`}>{c}</div>
+          ))}
+          <div class="dd-group-label">Standard</div>
+          {CATEGORIES.filter((c) => c !== "All").map((c) => (
+            <div class="dd-option" role="option" aria-selected="false" tabindex="0" data-value={`standard:${c}`}>{c}</div>
+          ))}
+        </div>
+      </div>
     </div>
 
     <section class="spotted premium-section">
       <div class="spotted-head">
-        <h2>Combo font yang nyebrang tapi nyambung — source by: <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a></h2>
-        <p>
-          {LIVE_PAIRS.length} pasangan font premium dari ebook "Album Font: Nyebrang Tapi
-          Jodoh", di-self-host dari file aslinya dan dirender beneran di sini — bukan
-          screenshot. Nama tiap font ngelink ke sumber download aslinya.
-        </p>
+        <h2>Crossed paths, perfect matches: premium pairings by <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a></h2>
+        <p>{LIVE_PAIRS.length} premium pairings from the ebook "Album Font: Nyebrang Tapi Jodoh."</p>
       </div>
       <div class="live-grid" id="premium-grid">
         {LIVE_PAIRS.map((pairing, i) => <SpottedLiveCard pairing={pairing} index={i + 1} />)}
@@ -64,7 +75,8 @@ const IG_URL = "https://www.instagram.com/fajarnyeni?utm_source=ig_web_button_sh
 
     <section class="mine-section">
       <div class="spotted-head">
-        <h2>Saran font standar</h2>
+        <h2>Free &amp; open-source pairings</h2>
+        <p>{PAIRINGS.length} hand-picked combinations, every one of them built entirely on Google Fonts, free to use in any project, commercial or not.</p>
       </div>
       <div class="grid" id="grid">
         {PAIRINGS.map((p) => <Card pairing={p} />)}
@@ -73,18 +85,23 @@ const IG_URL = "https://www.instagram.com/fajarnyeni?utm_source=ig_web_button_sh
   </div>
 
   <footer class="wrap">
-    Fonts via Google Fonts (open-source). Catalog: <code>pairings.md</code>.
-    Source by: "Album Font: Nyebrang Tapi Jodoh (All Series)" — thanks to: <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a>.
+    Fonts served via Google Fonts (open-source). Premium pairings sourced from
+    "Album Font: Nyebrang Tapi Jodoh (All Series)," with thanks to <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a>.
   </footer>
 
   <script>
     const search = document.getElementById("search") as HTMLInputElement;
-    const categorySelect = document.getElementById("category-select") as HTMLSelectElement;
+    const ddWrap = document.getElementById("category-dd") as HTMLElement;
+    const ddTrigger = document.getElementById("category-trigger") as HTMLButtonElement;
+    const ddLabel = ddTrigger.querySelector(".dd-label") as HTMLElement;
+    const ddPanel = document.getElementById("category-panel") as HTMLElement;
+    const ddOptions = Array.from(ddPanel.querySelectorAll<HTMLElement>(".dd-option"));
     const cards = document.querySelectorAll<HTMLElement>("#premium-grid .live-card, #grid .card");
+    let categoryValue = "All";
 
     function applyFilters() {
       const query = search.value.trim().toLowerCase();
-      const value = categorySelect.value;
+      const value = categoryValue;
       const [group, cat] = value === "All" ? [null, null] : value.split(/:(.*)/s);
       cards.forEach((card) => {
         const matchesCat = value === "All" || (card.dataset.group === group && card.dataset.cat === cat);
@@ -93,8 +110,47 @@ const IG_URL = "https://www.instagram.com/fajarnyeni?utm_source=ig_web_button_sh
       });
     }
 
+    function openDropdown() {
+      ddWrap.classList.add("open");
+      ddTrigger.setAttribute("aria-expanded", "true");
+    }
+    function closeDropdown() {
+      ddWrap.classList.remove("open");
+      ddTrigger.setAttribute("aria-expanded", "false");
+    }
+    function selectOption(opt: HTMLElement) {
+      categoryValue = opt.dataset.value ?? "All";
+      ddLabel.textContent = opt.textContent;
+      ddOptions.forEach((o) => {
+        const isActive = o === opt;
+        o.classList.toggle("active", isActive);
+        o.setAttribute("aria-selected", String(isActive));
+      });
+      applyFilters();
+      closeDropdown();
+      ddTrigger.focus();
+    }
+
+    ddTrigger.addEventListener("click", () => {
+      ddWrap.classList.contains("open") ? closeDropdown() : openDropdown();
+    });
+    ddOptions.forEach((opt) => {
+      opt.addEventListener("click", () => selectOption(opt));
+      opt.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectOption(opt);
+        }
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!ddWrap.contains(e.target as Node)) closeDropdown();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeDropdown();
+    });
+
     search.addEventListener("input", applyFilters);
-    categorySelect.addEventListener("change", applyFilters);
   </script>
 </body>
 </html>

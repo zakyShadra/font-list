@@ -33,14 +33,56 @@ header.top {
   margin-bottom: 1rem;
 }
 h1.intro {
-  font-family: Georgia, serif;
+  font-family: 'Monoton', Georgia, serif;
   font-weight: 400;
-  font-size: clamp(2.25rem, 6vw, 4rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  max-width: 32ch;
+  font-size: clamp(0.95rem, 4.8vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  max-width: 100%;
 }
-.intro-note { color: var(--paper-dim); max-width: 68ch; margin-top: 1.25rem; }
+.intro-note { font-family: 'Rubik', system-ui, sans-serif; color: var(--paper-dim); max-width: 100%; margin-top: 1.25rem; }
+
+/* --- Logo marquee: infinite auto-scrolling strip of design tools, like ngrok's client logos --- */
+.marquee {
+  overflow: hidden;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+  animation: marquee-scroll 26s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  color: var(--paper-muted);
+  white-space: nowrap;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.marquee-item:hover { opacity: 1; color: var(--paper); }
+.marquee-icon { width: 1.35rem; height: 1.35rem; flex-shrink: 0; }
+.marquee-icon svg { width: 100%; height: 100%; display: block; }
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
 
 .toolbar {
   position: sticky; top: 0; z-index: 10;
@@ -67,8 +109,7 @@ h1.intro {
 .toolbar button:hover, .toolbar button.active {
   color: var(--ink); background: var(--accent); border-color: var(--accent);
 }
-.toolbar input[type="search"],
-.toolbar select {
+.toolbar input[type="search"] {
   font-family: ui-monospace, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
@@ -78,21 +119,102 @@ h1.intro {
   border-radius: 999px;
   padding: 0.45rem 1rem;
   outline: none;
-}
-.toolbar input[type="search"] {
   flex: 1 1 240px;
   min-width: 160px;
 }
 .toolbar input[type="search"]::placeholder { color: var(--paper-muted); }
-.toolbar select {
-  cursor: pointer;
-  text-transform: uppercase;
+.toolbar input[type="search"]:focus {
+  border-color: var(--accent);
+}
+
+/* --- Custom category dropdown: replaces the native <select> for full theming + animation --- */
+.dd { position: relative; }
+.dd-trigger {
+  font-family: ui-monospace, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
-.toolbar input[type="search"]:focus,
-.toolbar select:focus {
+.dd-trigger:hover,
+.dd-trigger:focus-visible {
   border-color: var(--accent);
+}
+.dd-chevron {
+  color: var(--paper-dim);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.dd.open .dd-chevron { transform: rotate(180deg); color: var(--accent-ink); }
+
+.dd-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(20rem, 90vw);
+  max-height: 22rem;
+  overflow-y: auto;
+  background: var(--ink-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 0.75rem;
+  padding: 0.4rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  z-index: 20;
+
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.dd.open .dd-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.dd-panel::-webkit-scrollbar { width: 8px; }
+.dd-panel::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 999px; }
+.dd-panel::-webkit-scrollbar-track { background: transparent; }
+
+.dd-group-label {
+  font-family: ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  padding: 0.6rem 0.65rem 0.3rem;
+}
+.dd-option {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.dd-option:hover,
+.dd-option:focus-visible {
+  background: var(--rule);
+  color: var(--paper);
+}
+.dd-option.active {
+  background: var(--accent);
+  color: var(--ink);
 }
 
 .grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; padding-bottom: 5rem; }
@@ -202,25 +324,18 @@ h1.intro {
 }
 .card-font-link {
   display: block;
-  padding: 0.85rem 0;
+  padding: 0.85rem 0.6rem;
+  margin: 0 -0.6rem;
+  border-radius: 10px;
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 0.15s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .card-font-link:last-child { border-bottom: none; }
 .card-font-link:hover { background: rgba(255, 255, 255, 0.03); }
-.card-tag {
-  display: inline-block;
-  font-family: ui-monospace, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--paper-muted);
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 999px;
-  padding: 0.15rem 0.55rem;
-  margin-bottom: 0.35rem;
-}
+.card-font-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .card-font-name {
   display: block;
   font-size: 1.2rem;
@@ -245,17 +360,72 @@ h1.intro {
 /* --- Spotted-in-the-wild reference list (no preview, premium/third-party fonts) --- */
 .spotted { padding: 2.5rem 0 1rem; border-top: 1px solid var(--rule); }
 .spotted-head h2 {
-  font-family: Georgia, serif;
-  font-weight: 400;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
   font-size: clamp(1.4rem, 3.5vw, 1.9rem);
   margin-bottom: 0.5rem;
 }
-.spotted-head p { color: var(--paper-dim); max-width: 62ch; margin-bottom: 0.5rem; }
+.spotted-head p { color: var(--paper-dim); max-width: 100%; margin-bottom: 0.5rem; }
 .spotted-head h2 a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
 .spotted-head h2 a:hover { border-bottom-color: var(--accent-ink); }
 
 footer { padding: 2rem 0 4rem; border-top: 1px solid var(--rule); color: var(--paper-muted); font-size: 0.8rem; }
 footer a { color: var(--accent-ink); }
+
+/* --- Hover a "standar" card: calm lift + glow, plus a one-shot light sweep --- */
+.card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, outline-color 0.3s ease;
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  left: -75%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: skewX(-15deg);
+  pointer-events: none;
+  opacity: 0;
+}
+.card:hover {
+  outline-color: var(--accent);
+  box-shadow: 0 0 0 5px rgba(255, 92, 46, 0.12), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  transform: translateY(-4px);
+}
+.card:hover::after {
+  opacity: 1;
+  animation: card-shine 1s ease forwards;
+}
+@keyframes card-shine {
+  from { left: -75%; }
+  to { left: 135%; }
+}
+
+/* --- Hover a "premium" card: bigger lift + a breathing gradient glow + the accent dot pulses in sync --- */
+.live-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.live-card:hover {
+  transform: translateY(-7px) scale(1.015);
+  animation: live-card-glow 1.8s ease-in-out infinite;
+}
+.live-card:hover .live-dot {
+  animation: live-dot-pulse 1.8s ease-in-out infinite;
+}
+@keyframes live-card-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(255, 92, 46, 0.5), 0 25px 45px -18px rgba(255, 92, 46, 0.35), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(255, 129, 86, 0.9), 0 30px 55px -14px rgba(255, 129, 86, 0.55), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  }
+}
+@keyframes live-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 92, 46, 0.55); }
+  50% { box-shadow: 0 0 0 7px rgba(255, 92, 46, 0); }
+}
 
 /* --- Spotted LIVE preview: self-hosted ebook fonts, ebook-style background (CSS only, no images) --- */
 .live-banner {
@@ -391,25 +561,18 @@ footer a { color: var(--accent-ink); }
 }
 .live-font-link {
   display: block;
-  padding: 0.9rem 0;
+  padding: 0.9rem 0.6rem;
+  margin: 0 -0.6rem;
+  border-radius: 10px;
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 0.15s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .live-font-link:last-child { border-bottom: none; }
 .live-font-link:hover { background: rgba(255, 255, 255, 0.03); }
-.live-tag {
-  display: inline-block;
-  font-family: ui-monospace, monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--paper-muted);
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 999px;
-  padding: 0.15rem 0.55rem;
-  margin-bottom: 0.4rem;
-}
+.live-font-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .live-name {
   display: block;
   font-size: 1.3rem;

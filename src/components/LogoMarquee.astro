@@ -1,0 +1,15 @@
+---
+import { LOGOS } from "../data/logos";
+
+const track = [...LOGOS, ...LOGOS];
+---
+<div class="marquee" role="presentation" aria-hidden="true">
+  <div class="marquee-track">
+    {track.map((logo) => (
+      <span class="marquee-item">
+        <span class="marquee-icon" set:html={logo.svg} />
+        <span class="marquee-label">{logo.name}</span>
+      </span>
+    ))}
+  </div>
+</div>

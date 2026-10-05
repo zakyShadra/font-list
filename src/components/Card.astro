@@ -28,20 +28,17 @@ const gfUrl = (family) => `https://fonts.google.com/specimen/${family.replace(/ 
 
   <div class="card-foot">
     <a class="card-font-link" href={gfUrl(p.d)} target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">+ Nama Fontnya</span>
       <span class="card-font-name" style="font-family:var(--d)">{p.d}</span>
-      <span class="card-dl">Lihat di Google Fonts ↗</span>
+      <span class="card-dl">View on Google Fonts ↗</span>
     </a>
     <a class="card-font-link" href={gfUrl(p.b)} target="_blank" rel="noopener noreferrer">
-      <span class="card-tag">+ Nama Fontnya</span>
       <span class="card-font-name" style="font-family:var(--b)">{p.b}</span>
-      <span class="card-dl">Lihat di Google Fonts ↗</span>
+      <span class="card-dl">View on Google Fonts ↗</span>
     </a>
     {p.m && (
       <a class="card-font-link" href={gfUrl(p.m)} target="_blank" rel="noopener noreferrer">
-        <span class="card-tag">+ Nama Fontnya (mono)</span>
         <span class="card-font-name" style="font-family:var(--m)">{p.m}</span>
-        <span class="card-dl">Lihat di Google Fonts ↗</span>
+        <span class="card-dl">View on Google Fonts ↗</span>
       </a>
     )}
   </div>
