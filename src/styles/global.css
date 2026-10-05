@@ -38,9 +38,9 @@ h1.intro {
   font-size: clamp(2.25rem, 6vw, 4rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
-  max-width: 20ch;
+  max-width: 32ch;
 }
-.intro-note { color: var(--paper-dim); max-width: 52ch; margin-top: 1.25rem; }
+.intro-note { color: var(--paper-dim); max-width: 68ch; margin-top: 1.25rem; }
 
 .toolbar {
   position: sticky; top: 0; z-index: 10;
@@ -95,84 +95,151 @@ h1.intro {
   border-color: var(--accent);
 }
 
-.grid { display: grid; gap: 1.25rem; padding-bottom: 5rem; }
+.grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; padding-bottom: 5rem; }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
+/* "Standar" cards (Google Fonts pairings) — rounded, warm-grey gradient, deliberately
+   different from the premium ebook cards' near-black + orange-glow treatment, so the
+   two sections read as distinct tiers at a glance. */
 .card {
-  border: 1px solid var(--rule);
-  background: var(--ink-raised);
-  border-radius: 3px;
+  position: relative;
   overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  background:
+    radial-gradient(130% 120% at 10% -10%, rgba(255, 255, 255, 0.07), transparent 55%),
+    linear-gradient(150deg, #323237 0%, #1b1b1f 55%, #0e0e10 100%);
+  padding: 1.5rem 1.5rem 0;
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.55);
 }
+.card-shape {
+  position: absolute;
+  width: 55%;
+  height: 62%;
+  top: -20%;
+  left: -14%;
+  border-radius: 24px;
+  background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  transform: rotate(14deg);
+  pointer-events: none;
+}
+
 .card-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-  padding: 0.9rem 1.25rem;
-  border-bottom: 1px solid var(--rule);
-  background: var(--ink);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
 }
-.card-name {
-  font-family: ui-monospace, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--paper);
-}
-.card-name b { color: var(--accent-ink); font-weight: 500; }
-.card-num { font-family: ui-monospace, monospace; font-size: 0.72rem; color: var(--paper-muted); }
-
-.specimen { padding: 1.5rem 1.25rem; }
-.specimen .d {
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-}
-.specimen .d2 {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  line-height: 1.1;
-  margin-bottom: 0.9rem;
-}
-.specimen .b {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--paper-dim);
-  max-width: 54ch;
-}
-.specimen .m {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--paper-muted);
-  margin-top: 0.9rem;
-}
-.specimen .b i, .specimen .d2 i { font-style: italic; }
-
-.card-foot {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-  padding: 0.75rem 1.25rem;
-  border-top: 1px solid var(--rule);
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
   font-family: ui-monospace, monospace;
   font-size: 0.68rem;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 50%;
+}
+.card-cat {
+  font-family: ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--paper-muted);
+  text-align: right;
 }
-.mood { color: var(--paper-dim); }
-.roles { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
-.roles-label { color: var(--paper-muted); }
-.roles a {
-  color: var(--accent-ink);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease;
-}
-.roles a:hover { border-bottom-color: var(--accent-ink); }
 
-.why {
-  padding: 0 1.25rem 1.1rem;
-  font-size: 0.85rem;
+.card-specimen { position: relative; min-height: 7.5rem; }
+.card-d {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  margin-bottom: 0.6rem;
+  word-break: break-word;
+}
+.card-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 42ch;
+}
+.card-sample-text,
+.card-sample-caps {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--paper-dim);
+}
+.card-sample-caps { text-transform: uppercase; }
+.card-sample-num {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  color: var(--paper);
+}
+
+.card-why {
+  position: relative;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
   color: var(--paper-dim);
   max-width: 70ch;
+}
+
+.card-foot {
+  position: relative;
+  margin-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.card-font-link {
+  display: block;
+  padding: 0.85rem 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.15s ease;
+}
+.card-font-link:last-child { border-bottom: none; }
+.card-font-link:hover { background: rgba(255, 255, 255, 0.03); }
+.card-tag {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  margin-bottom: 0.35rem;
+}
+.card-font-name {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--paper);
+  margin-bottom: 0.25rem;
+}
+.card-dl {
+  display: block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.03em;
+  color: var(--accent-ink);
+}
+
+.card-mood {
+  position: relative;
+  padding: 0.9rem 0 1.4rem;
+  font-size: 0.78rem;
+  color: var(--paper-muted);
 }
 
 /* --- Spotted-in-the-wild reference list (no preview, premium/third-party fonts) --- */
@@ -184,55 +251,175 @@ h1.intro {
   margin-bottom: 0.5rem;
 }
 .spotted-head p { color: var(--paper-dim); max-width: 62ch; margin-bottom: 0.5rem; }
-.spotted-head .note {
-  font-family: ui-monospace, monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  color: var(--paper-muted);
-  margin-bottom: 2rem;
-}
-.spotted-group { margin-bottom: 1.75rem; }
-.spotted-group h3 {
-  font-family: ui-monospace, monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-ink);
-  margin-bottom: 0.75rem;
-}
-.spotted-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.4rem 1.5rem;
-  list-style: none;
-}
-.spotted-list li {
-  font-size: 0.85rem;
-  color: var(--paper-dim);
-  padding: 0.3rem 0;
-  border-bottom: 1px dashed var(--rule);
-}
-.spotted-list a {
-  color: var(--accent-ink);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease;
-}
-.spotted-list a:hover { border-bottom-color: var(--accent-ink); }
-.spotted-list .unlinked { color: var(--paper-muted); }
-.tag-paid {
-  display: inline-block;
-  font-family: ui-monospace, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--accent-ink);
-  border-radius: 999px;
-  padding: 0.05rem 0.4rem;
-  margin-left: 0.35rem;
-  vertical-align: 1px;
-}
+.spotted-head h2 a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+.spotted-head h2 a:hover { border-bottom-color: var(--accent-ink); }
 
 footer { padding: 2rem 0 4rem; border-top: 1px solid var(--rule); color: var(--paper-muted); font-size: 0.8rem; }
 footer a { color: var(--accent-ink); }
+
+/* --- Spotted LIVE preview: self-hosted ebook fonts, ebook-style background (CSS only, no images) --- */
+.live-banner {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px dashed var(--rule-strong);
+  border-radius: 4px;
+  background: var(--ink-raised);
+  color: var(--paper-dim);
+  font-size: 0.85rem;
+}
+.live-banner b { color: var(--accent-ink); }
+.live-banner a { color: var(--accent-ink); }
+
+.live-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem 0 5rem;
+}
+@media (min-width: 720px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .live-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.live-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 140% at 85% -10%, rgba(255, 92, 46, 0.14), transparent 55%),
+    linear-gradient(155deg, #202024 0%, #141417 45%, #0a0a0c 100%);
+  border: 1px solid var(--rule);
+  padding: 1.5rem 1.5rem 0;
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.6);
+}
+/* diagonal rounded-rectangle slabs, echoing the ebook cover's layered geometry */
+.live-shape {
+  position: absolute;
+  border-radius: 18px;
+  pointer-events: none;
+}
+.live-shape-a {
+  width: 60%;
+  height: 46%;
+  top: -14%;
+  right: -16%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+  transform: rotate(-18deg);
+}
+.live-shape-b {
+  width: 46%;
+  height: 70%;
+  bottom: -22%;
+  left: -14%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  background: transparent;
+}
+.live-dot {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.live-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  padding-left: 1.5rem;
+}
+.live-badge {
+  font-family: ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+}
+.live-theme {
+  font-family: ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+  text-align: right;
+}
+
+.live-specimen {
+  position: relative;
+  min-height: 7.5rem;
+}
+.live-d {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  margin-bottom: 0.6rem;
+  word-break: break-word;
+}
+.live-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 42ch;
+}
+.live-sample-text,
+.live-sample-caps {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--paper-dim);
+}
+.live-sample-caps { text-transform: uppercase; }
+.live-sample-num {
+  margin-top: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  color: var(--paper);
+}
+
+.live-foot {
+  position: relative;
+  margin-top: 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.live-font-link {
+  display: block;
+  padding: 0.9rem 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.15s ease;
+}
+.live-font-link:last-child { border-bottom: none; }
+.live-font-link:hover { background: rgba(255, 255, 255, 0.03); }
+.live-tag {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  margin-bottom: 0.4rem;
+}
+.live-name {
+  display: block;
+  font-size: 1.3rem;
+  color: var(--paper);
+  margin-bottom: 0.3rem;
+}
+.live-dl {
+  display: block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: var(--accent-ink);
+}

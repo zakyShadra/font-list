@@ -1,0 +1,51 @@
+---
+import "../styles/global.css";
+import "../styles/spotted-fonts.css";
+import SpottedLiveCard from "../components/SpottedLiveCard.astro";
+import { LIVE_PAIRS, GOOGLE_FONTS } from "../data/spottedLive";
+
+const fontHrefs = [...GOOGLE_FONTS].map(
+  (family) =>
+    `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:ital,wght@0,400;0,600;0,700&display=swap`
+);
+---
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Spotted — Live Preview (Draft)</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  {fontHrefs.map((href) => <link rel="stylesheet" href={href} />)}
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <p class="kicker">Draft · belum masuk halaman utama</p>
+      <h1 class="intro">Font dari ebook, dirender beneran.</h1>
+      <p class="intro-note">
+        Font premium/third-party dari "Album Font: Nyebrang Tapi Jodoh" yang statusnya
+        <code>free</code>, di-self-host dari file di <code>src/font/</code> dan dipasangkan
+        sesuai album aslinya — background kartu dibentuk pakai CSS (gradient + shape),
+        bukan screenshot PNG. Ini cuma preview buat dinilai dulu, belum diterapkan ke
+        halaman utama.
+      </p>
+    </header>
+
+    <p class="live-banner">
+      <b>{LIVE_PAIRS.length} pasangan</b> bisa dirender penuh (kedua font punya sumber
+      gratis terverifikasi). Pasangan yang salah satu fontnya belum ketemu filenya, atau
+      berbayar, belum ditampilkan di sini — tetap ada di daftar lama di <a href="/">halaman utama</a>.
+    </p>
+
+    <div class="live-grid">
+      {LIVE_PAIRS.map((pairing, i) => <SpottedLiveCard pairing={pairing} index={i + 1} />)}
+    </div>
+  </div>
+
+  <footer class="wrap">
+    Font lokal: <code>src/font/</code> → <code>public/fonts/spotted/</code>. Data: <code>src/data/spottedLive.js</code>.
+  </footer>
+</body>
+</html>

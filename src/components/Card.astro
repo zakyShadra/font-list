@@ -7,27 +7,44 @@ const style = `--d:'${p.d}', ${FALLBACKS.serif}; --b:'${p.b}', ${FALLBACKS.sans}
 const search = `${p.name} ${p.d} ${p.b} ${p.m || ""} ${p.mood} ${p.cat}`.toLowerCase();
 const gfUrl = (family) => `https://fonts.google.com/specimen/${family.replace(/ /g, "+")}`;
 ---
-<article class="card" data-cat={p.cat} data-search={search} style={style}>
+<article class="card" data-group="standard" data-cat={p.cat} data-search={search} style={style}>
+  <div class="card-shape" aria-hidden="true"></div>
+
   <div class="card-head">
-    <span class="card-name">
-      <b>{String(p.n).padStart(2, "0")}</b> &nbsp;{p.d} for headline · {p.b} for body{p.m && <> · {p.m} for mono</>}
-    </span>
-    <span class="card-num">{p.cat}</span>
+    <span class="card-badge">{String(p.n).padStart(2, "0")}</span>
+    <span class="card-cat">{p.cat}</span>
   </div>
-  <div class="specimen">
-    <div class="d" style="font-family:var(--d)">{p.d}</div>
-    <div class="d2" style="font-family:var(--d)"><i>Aa Bg</i> 0123</div>
-    <p class="b" style="font-family:var(--b)">The quick brown fox jumps over the lazy dog.</p>
-    <div class="m" style="font-family:var(--m)">{p.m || p.b} · AaBb 0123</div>
+
+  <div class="card-specimen">
+    <div class="card-d" style="font-family:var(--d)">{p.d}</div>
+    <div class="card-sample" style="font-family:var(--b)">
+      <p class="card-sample-text">The quick brown fox jumps over the lazy dog</p>
+      <p class="card-sample-caps">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</p>
+      <p class="card-sample-num">0123456789</p>
+    </div>
   </div>
-  <div class="why">{p.why}</div>
+
+  <p class="card-why">{p.why}</p>
+
   <div class="card-foot">
-    <span class="mood">{p.mood}</span>
-    <span class="roles">
-      <span class="roles-label">Download ↓</span>
-      <a href={gfUrl(p.d)} target="_blank" rel="noopener noreferrer">D {p.d}</a>
-      <a href={gfUrl(p.b)} target="_blank" rel="noopener noreferrer">B {p.b}</a>
-      {p.m && <a href={gfUrl(p.m)} target="_blank" rel="noopener noreferrer">M {p.m}</a>}
-    </span>
+    <a class="card-font-link" href={gfUrl(p.d)} target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">+ Nama Fontnya</span>
+      <span class="card-font-name" style="font-family:var(--d)">{p.d}</span>
+      <span class="card-dl">Lihat di Google Fonts ↗</span>
+    </a>
+    <a class="card-font-link" href={gfUrl(p.b)} target="_blank" rel="noopener noreferrer">
+      <span class="card-tag">+ Nama Fontnya</span>
+      <span class="card-font-name" style="font-family:var(--b)">{p.b}</span>
+      <span class="card-dl">Lihat di Google Fonts ↗</span>
+    </a>
+    {p.m && (
+      <a class="card-font-link" href={gfUrl(p.m)} target="_blank" rel="noopener noreferrer">
+        <span class="card-tag">+ Nama Fontnya (mono)</span>
+        <span class="card-font-name" style="font-family:var(--m)">{p.m}</span>
+        <span class="card-dl">Lihat di Google Fonts ↗</span>
+      </a>
+    )}
   </div>
+
+  <div class="card-mood">{p.mood}</div>
 </article>

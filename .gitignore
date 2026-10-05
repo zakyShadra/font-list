@@ -24,3 +24,8 @@ pnpm-debug.log*
 .idea/
 .vercel
 .env*
+
+# raw premium/ebook source material (mixed licenses, kept local only —
+# public/fonts/ has the individual files actually self-hosted for the site)
+/src/font/
+*.pdf

@@ -1,13 +1,18 @@
 ---
 import "../styles/global.css";
+import "../styles/spotted-fonts.css";
 import Card from "../components/Card.astro";
+import SpottedLiveCard from "../components/SpottedLiveCard.astro";
 import { PAIRINGS, FONT_FAMILIES, CATEGORIES } from "../data/pairings";
-import { SPOTTED } from "../data/spotted";
+import { LIVE_PAIRS, GOOGLE_FONTS, PREMIUM_CATEGORIES } from "../data/spottedLive";
 
-const fontHrefs = FONT_FAMILIES.map(
+const allFamilies = [...new Set([...FONT_FAMILIES, ...GOOGLE_FONTS])];
+const fontHrefs = allFamilies.map(
   (family) =>
     `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap`
 );
+
+const IG_URL = "https://www.instagram.com/fajarnyeni?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==";
 ---
 <!doctype html>
 <html lang="en">
@@ -33,72 +38,56 @@ const fontHrefs = FONT_FAMILIES.map(
     <div class="toolbar">
       <input type="search" id="search" placeholder="Search a font, mood, or style…" autocomplete="off" />
       <select id="category-select">
-        {CATEGORIES.map((c) => <option value={c}>{c}</option>)}
+        <option value="All">All</option>
+        <optgroup label="Premium">
+          {PREMIUM_CATEGORIES.map((c) => <option value={`premium:${c}`}>{c}</option>)}
+        </optgroup>
+        <optgroup label="Standar">
+          {CATEGORIES.filter((c) => c !== "All").map((c) => <option value={`standard:${c}`}>{c}</option>)}
+        </optgroup>
       </select>
     </div>
-    <div class="grid" id="grid">
-      {PAIRINGS.map((p) => <Card pairing={p} />)}
-    </div>
 
-    <section class="spotted">
+    <section class="spotted premium-section">
       <div class="spotted-head">
-        <h2>Spotted in "Album Font: Nyebrang Tapi Jodoh"</h2>
+        <h2>Combo font yang nyebrang tapi nyambung — source by: <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a></h2>
         <p>
-          Font pairings from Kang Desain's (@fajarnyeni) ebook. None of these are
-          live-rendered here — licenses are mixed (several are personal-use-only)
-          so we don't self-host them. Where we tracked down a real free download,
-          the name links straight to the original host. A <span class="tag-paid">premium</span>
-          tag means it turned out to be paid — some of the ebook's own "free
-          download" links actually redirect to Envato Elements or a commercial
-          foundry — so there's nothing to link to.
+          {LIVE_PAIRS.length} pasangan font premium dari ebook "Album Font: Nyebrang Tapi
+          Jodoh", di-self-host dari file aslinya dan dirender beneran di sini — bukan
+          screenshot. Nama tiap font ngelink ke sumber download aslinya.
         </p>
-        <p class="note">NO LIVE PREVIEW · LINKS GO TO THE ORIGINAL SOURCE · CHECK EACH LICENSE BEFORE COMMERCIAL USE</p>
       </div>
-      {SPOTTED.map((group) => (
-        <div class="spotted-group">
-          <h3>{group.theme}</h3>
-          <ul class="spotted-list">
-            {group.pairs.map((pair) => (
-              <li>
-                {typeof pair === "string" ? (
-                  pair
-                ) : (
-                  pair.fonts.map((f, i) => (
-                    <>
-                      {i > 0 && " + "}
-                      {f.status === "free" ? (
-                        <a href={f.url} target="_blank" rel="noopener noreferrer" title={f.note}>{f.name} ↓</a>
-                      ) : (
-                        <span class="unlinked" title={f.note}>
-                          {f.name}
-                          {(f.status === "paid" || f.status === "paid-commercial") && <span class="tag-paid">premium</span>}
-                        </span>
-                      )}
-                    </>
-                  ))
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <div class="live-grid" id="premium-grid">
+        {LIVE_PAIRS.map((pairing, i) => <SpottedLiveCard pairing={pairing} index={i + 1} />)}
+      </div>
+    </section>
+
+    <section class="mine-section">
+      <div class="spotted-head">
+        <h2>Saran font standar</h2>
+      </div>
+      <div class="grid" id="grid">
+        {PAIRINGS.map((p) => <Card pairing={p} />)}
+      </div>
     </section>
   </div>
 
   <footer class="wrap">
     Fonts via Google Fonts (open-source). Catalog: <code>pairings.md</code>.
+    Source by: "Album Font: Nyebrang Tapi Jodoh (All Series)" — thanks to: <a href={IG_URL} target="_blank" rel="noopener noreferrer">fajarnyeni</a>.
   </footer>
 
   <script>
     const search = document.getElementById("search") as HTMLInputElement;
     const categorySelect = document.getElementById("category-select") as HTMLSelectElement;
-    const cards = document.querySelectorAll<HTMLElement>("#grid .card");
+    const cards = document.querySelectorAll<HTMLElement>("#premium-grid .live-card, #grid .card");
 
     function applyFilters() {
       const query = search.value.trim().toLowerCase();
-      const cat = categorySelect.value;
+      const value = categorySelect.value;
+      const [group, cat] = value === "All" ? [null, null] : value.split(/:(.*)/s);
       cards.forEach((card) => {
-        const matchesCat = cat === "All" || card.dataset.cat === cat;
+        const matchesCat = value === "All" || (card.dataset.group === group && card.dataset.cat === cat);
         const matchesSearch = !query || (card.dataset.search ?? "").includes(query);
         card.hidden = !(matchesCat && matchesSearch);
       });
